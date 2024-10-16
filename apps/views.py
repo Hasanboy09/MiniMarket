@@ -1,9 +1,10 @@
 from django.contrib.auth import login
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import FormView, TemplateView
+from django.views.generic import FormView, TemplateView, ListView
 
 from apps.forms import RegistrationForm, LoginForm
+from apps.models import Product, Category
 
 
 # Create your views here.
@@ -31,5 +32,15 @@ class LoginFormVIew(FormView):
         return super().form_valid(form)
 
 
-class ProductListView(TemplateView):
+class ProductListView(ListView):
+    queryset = Product.objects.all()
+    context_object_name = 'products'
     template_name = 'product/product-list.html'
+
+    def get_context_data(self, *args, **kwargs):
+        data = super().get_context_data(*args, **kwargs)
+        category_id = self.request.GET.get('category_id')
+        data['categories'] = Category.objects.all()
+        if category_id:
+            data['products'] = data.get('products').filter(category_id=category_id)
+        return data
