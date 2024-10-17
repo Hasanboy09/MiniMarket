@@ -1,7 +1,8 @@
 from django.contrib.auth import login
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import FormView, TemplateView, ListView
+from django.views import View
+from django.views.generic import FormView, ListView, DetailView
 
 from apps.forms import RegistrationForm, LoginForm
 from apps.models import Product, Category
@@ -44,3 +45,29 @@ class ProductListView(ListView):
         if category_id:
             data['products'] = data.get('products').filter(category_id=category_id)
         return data
+
+
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = 'product/product-detail.html'
+    context_object_name = 'product'
+
+
+class ProductDeleteView(View):
+    def get(self, request, pk):
+        Product.objects.filter(pk=pk).first().delete()
+        return redirect('home')
+
+
+class ProductUpdateView(View):
+    def post(self, request):
+        product_id = request.GET.get('product_id')
+        quantity = request.POST.get('quantity')
+        try:
+            product = Product.objects.get(id=product_id)
+            product.quantity = int(quantity)
+            product.save()
+        except Product.DoesNotExist:
+            pass
+        return redirect('home')
+

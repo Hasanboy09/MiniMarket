@@ -42,15 +42,14 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
     <div class="container bootstrap snippets bootdey">
         <div class="row">
-            <div class="col-md-3 store-menu">
+           <div class="col-md-3 store-menu">
                 <ul class="nav">
                     {% for category in categories %}
-                        <li><a><i class="fa fa-angle-right"></i>{{ category.name }}</a></li>
-
+                        <li><a href="{% url 'home' %}?category_id={{ category.id }}">{{ category.name }}</a></li>
                     {% endfor %}
-
                 </ul>
             </div>
+
             <div class="col-md-9">
                 {% for product in products %}
                     <div class="col-md-6 col-sm-6">
@@ -58,18 +57,18 @@
                             <div class="store-item-rating text-warning"><i class="fa fa-star"></i> <i
                                     class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
                                     class="fa fa-star-half-o"></i></div>
-                            <div class="store-item-image"><a href="#"> <img
+                            <div class="store-item-image"><a href="{% url 'product-detail' product.pk %}"> <img
                                     src="{{ product.image.url }}" alt
                                     class="img-responsive">
                             </a></div>
                             <div class="store-item-info clearfix"><span
                                     class="store-item-price themed-color-dark pull-right">$ {{ product.price }}</span> <a
-                                    href="#"><strong>{{ product.name }}</strong></a><br> <small><i class="fa fa-shopping-cart text-muted"></i> <a href="#"
+                                    href="{% url 'product-detail' product.pk %}"><strong>{{ product.name }}</strong></a><br> <small><i class="fa fa-shopping-cart text-muted"></i> <a href="#"
                                                                                                               class="text-muted">Add
                                 to cart</a></small></div>
                         </div>
                     </div>
-            
+
                 {% endfor %}
 
 
