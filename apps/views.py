@@ -2,7 +2,7 @@ from django.contrib.auth import login
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import FormView, ListView, DetailView
+from django.views.generic import FormView, ListView, DetailView, TemplateView
 
 from apps.forms import RegistrationForm, LoginForm
 from apps.models import Product, Category
@@ -70,4 +70,9 @@ class ProductUpdateView(View):
         except Product.DoesNotExist:
             pass
         return redirect('home')
+
+
+class ProfileTemplateView(TemplateView):
+    template_name = 'profile/profile.html'
+
 
