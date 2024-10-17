@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import FormView, ListView, DetailView, TemplateView
 
-from apps.forms import RegistrationForm, LoginForm
+from apps.forms import RegistrationForm, LoginForm, ProfileEditForm
 from apps.models import Product, Category
 
 
@@ -72,7 +72,23 @@ class ProductUpdateView(View):
         return redirect('home')
 
 
-class ProfileTemplateView(TemplateView):
+class ProfileFormView(FormView):
+    form_class = ProfileEditForm
     template_name = 'profile/profile.html'
+    success_url = reverse_lazy('home')
 
+    def form_valid(self, form):
+        user = self.request.user
+        form_data = form.cleaned_data
 
+        user.first_name = form_data.get('first_name')
+        user.last_name = form_data.get('last_name')
+        user.email = form_data.get('email')
+        user.phone = form_data.get('phone')
+        user.mobile = form_data.get('mobile')
+        user.skype_number = form_data.get('skype_number')
+        user.image = form_data.get('image')
+
+        user.save()
+
+        return super().form_valid(form)

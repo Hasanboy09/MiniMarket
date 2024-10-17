@@ -5,7 +5,10 @@ from django.db.models import CharField
 
 # Create your models here.
 class User(AbstractUser):
-    pass
+    phone = CharField(max_length=12)
+    mobile = CharField(max_length=12)
+    image = models.ImageField(upload_to='profile/')
+    skype_number = CharField(max_length=255)
 
 
 class Category(models.Model):

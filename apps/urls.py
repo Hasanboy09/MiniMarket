@@ -1,7 +1,7 @@
 from django.urls import path
 
 from apps.views import RegisterFormVIew, ProductListView, LoginFormVIew, ProductDetailView, ProductDeleteView, \
-    ProductUpdateView, ProfileTemplateView
+    ProductUpdateView, ProfileFormView
 
 urlpatterns = [
     path('', RegisterFormVIew.as_view(), name='register'),
@@ -17,5 +17,5 @@ urlpatterns += [
 ]
 
 urlpatterns += [
-    path('profile' , ProfileTemplateView.as_view(), name='profile')
+    path('profile' , ProfileFormView.as_view(), name='profile')
 ]

@@ -1,5 +1,6 @@
 from django.contrib.auth.hashers import check_password, make_password
 from django.core.exceptions import ValidationError
+from django.db.models import ImageField
 from django.forms import ModelForm, EmailField, CharField, Form
 
 from apps.models import User
@@ -32,3 +33,13 @@ class LoginForm(Form):
             raise ValidationError("Your wrong password")
 
         return data
+
+
+class ProfileEditForm(Form):
+    first_name = CharField(max_length=255)
+    last_name = CharField(max_length=255)
+    email = CharField(max_length=255)
+    phone = CharField(max_length=12)
+    mobile = CharField(max_length=12)
+    image = ImageField(upload_to='profile')
+    skype_number = CharField(max_length=255)
